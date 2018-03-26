@@ -1,9 +1,11 @@
 package com.example.zxing
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +21,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onButtonClick() {
+        val integrator = IntentIntegrator(this)
+        integrator.setOrientationLocked(false)
+        integrator.setPrompt("scan test")
+        integrator.initiateScan()
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            IntentIntegrator.REQUEST_CODE -> {
+                val result = IntentIntegrator.parseActivityResult(resultCode, data)
+                textView.text = result.contents
+            }
+        }
     }
 
 }
