@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.result)
         cameraView = findViewById(R.id.camera_view)
 
+        var errorCounter = 0
+
         fotoapparat = Fotoapparat(
                 context = this,
                 view = cameraView,                   // view which will draw the camera preview
@@ -53,6 +55,13 @@ class MainActivity : AppCompatActivity() {
                                 rawValue = barcodes.valueAt(0)?.rawValue ?: ""
                                 print(barcodes.toString())
                                 print(barcodes[0])
+                                errorCounter = 0
+                            } else {
+                                errorCounter++
+                            }
+
+                            if (errorCounter == 10) {
+                                rawValue = ""
                             }
                         }
                 ),
